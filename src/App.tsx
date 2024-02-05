@@ -9,6 +9,14 @@ import NewsList from './components/NewsList';
 function App() {
   const [loading, setLoading] = useState(true);
   const [rssInfo, setRssInfo] = useState<RssItem | null>(null);
+  const [showFavourites, setShowFavourites] = useState<boolean>(false);
+
+  //handle show favourites
+  const handleShowFavouritesChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    console.log('check=>', event.target.checked);
+  };
   //useEffect to fetch data
   useEffect(() => {
     const fetchData = async () => {
@@ -85,7 +93,17 @@ function App() {
       {loading && <Loader />}
       <div className="main">
         <NewsList rssInfo={rssInfo} />
-        <div>features.........</div>
+        <div className="features">
+          <div>
+            <input
+              type="checkbox"
+              id="show_favourites"
+              checked={showFavourites}
+              onChange={handleShowFavouritesChange}
+            />
+            <label htmlFor="show_favourites">Show Favourites</label>
+          </div>
+        </div>
       </div>
       {/* <h3>{rssData?.title}</h3> */}
     </div>
