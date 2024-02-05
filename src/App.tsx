@@ -3,23 +3,7 @@ import './App.css';
 import axios from 'axios';
 import Loader from './components/Loader';
 import Header from './components/Header';
-// Define interfaces
-interface NewsItem {
-  title: string;
-  link: string;
-  guid: string;
-  pubDate: string;
-  description: string;
-  source: string;
-}
-
-interface RssItem {
-  title: string;
-  lastBuildDate: string;
-  link: string;
-  newsList: NewsItem[];
-  sources: string[];
-}
+import { RssItem, NewsItem } from './models/data.model';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -92,12 +76,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* <header id="header" className="App-header">
-        <h1 id="page_title">
-          <a href={rssInfo?.link}>{rssInfo?.title}</a>
-          <h2 id="last_build_date">{rssInfo?.lastBuildDate}</h2>
-        </h1>
-      </header> */}
       <Header
         link={rssInfo?.link}
         title={rssInfo?.title}
