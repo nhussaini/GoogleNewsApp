@@ -4,6 +4,7 @@ import axios from 'axios';
 import Loader from './components/Loader';
 import Header from './components/Header';
 import { RssItem, NewsItem } from './models/data.model';
+import NewsList from './components/NewsList';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -82,6 +83,7 @@ function App() {
         lastBuildDate={rssInfo?.lastBuildDate}
       />
       {loading && <Loader />}
+      <NewsList rssInfo={rssInfo} />
       {/* <h3>{rssData?.title}</h3> */}
     </div>
   );
