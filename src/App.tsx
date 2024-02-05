@@ -10,6 +10,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [rssInfo, setRssInfo] = useState<RssItem | null>(null);
   const [showFavourites, setShowFavourites] = useState<boolean>(false);
+  const [selectedDate, setSelectedDate] = useState<string>('hi');
 
   //handle show favourites
   const handleShowFavouritesChange = (
@@ -17,6 +18,13 @@ function App() {
   ) => {
     console.log('check=>', event.target.checked);
   };
+
+  //handle date change
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('selected date=>', event.target.value);
+    setSelectedDate(event.target.value);
+  };
+
   //useEffect to fetch data
   useEffect(() => {
     const fetchData = async () => {
@@ -66,13 +74,6 @@ function App() {
         };
         setRssInfo(rssItem);
 
-        // const rssData: any[][] = [
-        //   ['title', title],
-        //   ['lastBuildDate', lastBuildDate],
-        //   ['link', link],
-        //   ['sources', [...sources]],
-        // ];
-
         const jsonString: string = JSON.stringify(rssItem);
         localStorage.setItem('rssData', jsonString);
       } catch (error) {
@@ -94,6 +95,7 @@ function App() {
       <div className="main">
         <NewsList rssInfo={rssInfo} />
         <div className="features">
+          {/* checkbox for favourties */}
           <div>
             <input
               type="checkbox"
@@ -102,6 +104,16 @@ function App() {
               onChange={handleShowFavouritesChange}
             />
             <label htmlFor="show_favourites">Show Favourites</label>
+          </div>
+          {/* date filter */}
+          <div>
+            <label htmlFor="selected_date">Select Date:</label>
+            <input
+              type="date"
+              id="selected_date"
+              value={selectedDate}
+              onChange={handleDateChange}
+            />
           </div>
         </div>
       </div>
