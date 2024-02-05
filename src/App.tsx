@@ -83,7 +83,10 @@ function App() {
         lastBuildDate={rssInfo?.lastBuildDate}
       />
       {loading && <Loader />}
-      <NewsList rssInfo={rssInfo} />
+      <div className="main">
+        <NewsList rssInfo={rssInfo} />
+        <div>features.........</div>
+      </div>
       {/* <h3>{rssData?.title}</h3> */}
     </div>
   );
