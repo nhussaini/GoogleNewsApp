@@ -25,13 +25,11 @@ function App() {
     console.log('selected date=>', event.target.value);
     setSelectedDate(event.target.value);
   };
-  //replace space with underscore
-  const replaceSpaceWithUnderscore = (sources: string[]) => {
-    // console.log('sources==========>', sources);
+  const replaceSpaceWithUnderscore = (sources: string[] = []) => {
     const nonDuplicates = Array.from(new Set([...sources]));
-    const filteredSources = nonDuplicates.map((item) => item.replace(' ', '_'));
-    // console.log('input=>', newArr);
-    // console.log('filtered resources from funcions=>', filteredSources);
+    const filteredSources = nonDuplicates.map((item) =>
+      item.toLowerCase().replace(/\s+/g, '_')
+    );
     return filteredSources;
   };
 
