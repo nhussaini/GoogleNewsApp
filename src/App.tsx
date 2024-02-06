@@ -11,7 +11,6 @@ function App() {
   const [rssInfo, setRssInfo] = useState<RssItem | null>(null);
   const [showFavourites, setShowFavourites] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<string>('');
-  // const [uniqueSources, setUniqueSources] = useState<string[] | []>([]);
 
   //handle show favourites
   const handleShowFavouritesChange = (
@@ -31,6 +30,13 @@ function App() {
       item.toLowerCase().replace(/\s+/g, '_')
     );
     return filteredSources;
+  };
+
+  //handle sort change
+  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOption = event.target.value;
+    // Handle the selected sort option here
+    console.log('Selected sort option:', selectedOption);
   };
 
   //useEffect to fetch data
@@ -140,6 +146,18 @@ function App() {
                   </button>
                 );
               })}
+          </div>
+          {/* dropdown select for sorting */}
+          <div>
+            <label htmlFor="sort_input">Sort By:</label>
+            <select id="sort_input" onChange={handleSortChange}>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+              <option value="title_asc">title_asc</option>
+              <option value="title_desc">title_desc</option>
+              <option value="source_asc">source_asc</option>
+              <option value="source_desc">source_desc</option>
+            </select>
           </div>
         </div>
       </div>
