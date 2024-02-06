@@ -11,7 +11,7 @@ function App() {
   const [rssInfo, setRssInfo] = useState<RssItem | null>(null);
   const [showFavourites, setShowFavourites] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<string>('');
-  const [uniqueSources, setUniqueSources] = useState<string[] | []>([]);
+  // const [uniqueSources, setUniqueSources] = useState<string[] | []>([]);
 
   //handle show favourites
   const handleShowFavouritesChange = (
@@ -26,12 +26,12 @@ function App() {
     setSelectedDate(event.target.value);
   };
   //replace space with underscore
-  const replaceSpaceWithUnderscore = (sources: string[] = []) => {
-    console.log('sources==========>', sources);
+  const replaceSpaceWithUnderscore = (sources: string[]) => {
+    // console.log('sources==========>', sources);
     const nonDuplicates = Array.from(new Set([...sources]));
     const filteredSources = nonDuplicates.map((item) => item.replace(' ', '_'));
     // console.log('input=>', newArr);
-    console.log('filtered resources from funcions=>', filteredSources);
+    // console.log('filtered resources from funcions=>', filteredSources);
     return filteredSources;
   };
 
@@ -85,9 +85,11 @@ function App() {
         setRssInfo(rssItem);
         // console.log('rssInfo sources=>', rssInfo?.sources);
         //pass rssInfo.sources to replace space with underscore
-        const filteredSources = replaceSpaceWithUnderscore(rssInfo?.sources);
-        setUniqueSources(filteredSources);
-        console.log('state for unique sources +++++>', uniqueSources);
+        // if (rssInfo) {
+        //   const filteredSources = replaceSpaceWithUnderscore(rssInfo.sources);
+        //   setUniqueSources(filteredSources);
+        //   console.log('state for unique sources +++++>', uniqueSources);
+        // }
 
         const jsonString: string = JSON.stringify(rssItem);
         localStorage.setItem('rssData', jsonString);
@@ -132,9 +134,14 @@ function App() {
           </div>
           {/* button to filter based on news sources */}
           <div>
-            {uniqueSources.map((item) => {
-              return <button id={`source_${item}`}>{item}</button>;
-            })}
+            {rssInfo &&
+              replaceSpaceWithUnderscore(rssInfo.sources).map((item) => {
+                return (
+                  <button id={`source_${item}`} key={`source_${item}`}>
+                    {item}
+                  </button>
+                );
+              })}
           </div>
         </div>
       </div>
