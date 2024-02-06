@@ -10,7 +10,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [rssInfo, setRssInfo] = useState<RssItem | null>(null);
   const [showFavourites, setShowFavourites] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<string>('hi');
+  const [selectedDate, setSelectedDate] = useState<string>('');
+  const [uniqueSources, setUniqueSources] = useState<string[] | []>([]);
 
   //handle show favourites
   const handleShowFavouritesChange = (
@@ -23,6 +24,15 @@ function App() {
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log('selected date=>', event.target.value);
     setSelectedDate(event.target.value);
+  };
+  //replace space with underscore
+  const replaceSpaceWithUnderscore = (sources: string[] = []) => {
+    console.log('sources==========>', sources);
+    const nonDuplicates = Array.from(new Set([...sources]));
+    const filteredSources = nonDuplicates.map((item) => item.replace(' ', '_'));
+    // console.log('input=>', newArr);
+    console.log('filtered resources from funcions=>', filteredSources);
+    return filteredSources;
   };
 
   //useEffect to fetch data
@@ -73,6 +83,11 @@ function App() {
           sources,
         };
         setRssInfo(rssItem);
+        // console.log('rssInfo sources=>', rssInfo?.sources);
+        //pass rssInfo.sources to replace space with underscore
+        const filteredSources = replaceSpaceWithUnderscore(rssInfo?.sources);
+        setUniqueSources(filteredSources);
+        console.log('state for unique sources +++++>', uniqueSources);
 
         const jsonString: string = JSON.stringify(rssItem);
         localStorage.setItem('rssData', jsonString);
@@ -114,6 +129,12 @@ function App() {
               value={selectedDate}
               onChange={handleDateChange}
             />
+          </div>
+          {/* button to filter based on news sources */}
+          <div>
+            {uniqueSources.map((item) => {
+              return <button id={`source_${item}`}>{item}</button>;
+            })}
           </div>
         </div>
       </div>

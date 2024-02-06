@@ -71,33 +71,3 @@ const NewsList = ({ rssInfo }: NewsListProps) => {
   }
 };
 export default NewsList;
-
-// {rssInfo?.title ? (
-//     <div id="content">
-//       {rssInfo.newsList.map((item) => {
-//         return (
-//           <div
-//             className="article"
-//             id={`article_${item.guid}`}
-//             key={`article_${item.guid}`}
-//           >
-//             <h4 id={`article_${item.guid}_title`}>
-//               <a href={item.link}>{item.title}</a>
-//             </h4>
-//             <button id={`article_${item.guid}_fav_btn`}>Favorite</button>
-//             <h5 id={`article_${item.guid}_pub_date`}>
-//               {formatDate(item.pubDate)}
-//             </h5>
-//             <h5 id={`article_${item.guid}_source`}>{item.source}</h5>
-//             {/* <div id={`article_${item.guid}_desc`}>{item.description}</div> */}
-//             <div
-//               id={`article_${item.guid}_desc`}
-//               dangerouslySetInnerHTML={{ __html: item.description }}
-//             />
-//           </div>
-//         );
-//       })}
-//     </div>
-//   ) : (
-//     <Loader></Loader>
-//   )}
