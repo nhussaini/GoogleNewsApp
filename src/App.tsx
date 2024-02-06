@@ -5,6 +5,7 @@ import Loader from './components/Loader';
 import Header from './components/Header';
 import { RssItem, NewsItem } from './models/data.model';
 import NewsList from './components/NewsList';
+import DateFilter from './components/DateFilter';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -121,15 +122,10 @@ function App() {
             <label htmlFor="show_favourites">Show Favourites</label>
           </div>
           {/* date filter */}
-          <div>
-            <label htmlFor="selected_date">Select Date:</label>
-            <input
-              type="date"
-              id="selected_date"
-              value={selectedDate}
-              onChange={handleDateChange}
-            />
-          </div>
+          <DateFilter
+            selectedDate={selectedDate}
+            handleDateChange={handleDateChange}
+          />
           {/* button to filter based on news sources */}
           <div>
             {rssInfo &&
