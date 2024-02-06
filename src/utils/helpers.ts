@@ -1,5 +1,7 @@
-//format the date
+import moment from 'moment';
+
 export const formatDate = (dateString: string): string => {
+  const date = moment(dateString).toDate();
   const months = [
     'Jan',
     'Feb',
@@ -14,9 +16,6 @@ export const formatDate = (dateString: string): string => {
     'Nov',
     'Dec',
   ];
-  const date = new Date(dateString);
-  //   console.log('date is:', date);
-
   // Extract date components
   const day = date.getDate().toString().padStart(2, '0');
   const month = months[date.getMonth()];

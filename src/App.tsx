@@ -1,53 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios';
-import moment from 'moment';
 import Loader from './components/Loader';
 import Header from './components/Header';
 import { RssItem, NewsItem } from './models/data.model';
 import NewsList from './components/NewsList';
 import DateFilter from './components/DateFilter';
-// import { formatDate } from './utils/helpers';
+import { formatDate } from './utils/helpers';
 
 function App() {
   const [loading, setLoading] = useState(true);
   const [rssInfo, setRssInfo] = useState<RssItem | null>(null);
   const [showFavourites, setShowFavourites] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<string>('');
-  // const [dateFilter, setDateFilter] = useState<string | null>('');
-  const formatDate = (dateString: string): string => {
-    // console.log('dateString is:', dateString);
-    const date = moment(dateString).toDate();
-    // console.log('date moment is=>', date);
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    // const date = new Date(dateString);
-    // console.log('date is:', date);
-
-    // Extract date components
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = months[date.getMonth()];
-    const year = date.getFullYear();
-
-    // Construct formatted date string
-    const formattedDate = `${date
-      .toDateString()
-      .substring(0, 3)} ${month} ${day} ${year}`;
-    // console.log('formattedDate=>', formattedDate);
-    return formattedDate;
-  };
 
   //handle show favourites
   const handleShowFavouritesChange = (
@@ -58,24 +23,25 @@ function App() {
 
   //handle date change
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('selected date=>', event.target.value);
-    setSelectedDate(event.target.value);
-    // filterNewsForSpecificDate(event.target.value);
+    const date = event.target.value;
+    setSelectedDate(date);
   };
 
   //filter news for a specific date
   const filterNewsForSpecificDate = (dateString: string): RssItem | null => {
     // Check if rssInfo is null
     if (!rssInfo) {
-      console.log('rssInfo is null');
       return null;
     }
-    console.log('date from the function', dateString);
+    //call the external date formatter
     const formattedDate = formatDate(dateString);
-    console.log('formatted Date===>', formattedDate);
+
+    //filter newsList
     const filteredNewsList = rssInfo?.newsList.filter(
       (news) => formatDate(news.pubDate) === formattedDate
     );
+
+    //create a new RssItem
     const filteredRssItem: RssItem = {
       title: rssInfo.title,
       lastBuildDate: rssInfo.lastBuildDate,
