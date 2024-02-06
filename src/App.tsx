@@ -86,14 +86,8 @@ function App() {
           newsList,
           sources,
         };
+        //set rssInfo state
         setRssInfo(rssItem);
-        // console.log('rssInfo sources=>', rssInfo?.sources);
-        //pass rssInfo.sources to replace space with underscore
-        // if (rssInfo) {
-        //   const filteredSources = replaceSpaceWithUnderscore(rssInfo.sources);
-        //   setUniqueSources(filteredSources);
-        //   console.log('state for unique sources +++++>', uniqueSources);
-        // }
 
         const jsonString: string = JSON.stringify(rssItem);
         localStorage.setItem('rssData', jsonString);
@@ -161,7 +155,6 @@ function App() {
           </div>
         </div>
       </div>
-      {/* <h3>{rssData?.title}</h3> */}
     </div>
   );
 }
