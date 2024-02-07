@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import moment from 'moment';
 import './App.css';
 import axios from 'axios';
 import Loader from './components/Loader';
@@ -13,6 +14,7 @@ function App() {
   const [rssInfo, setRssInfo] = useState<RssItem | null>(null);
   const [showFavourites, setShowFavourites] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<string>('');
+  const [sortOptions, setSortOptions] = useState<string>('');
 
   //handle show favourites
   const handleShowFavouritesChange = (
@@ -65,6 +67,54 @@ function App() {
     const selectedOption = event.target.value;
     // Handle the selected sort option here
     console.log('Selected sort option:', selectedOption);
+    setSortOptions(selectedOption);
+    // handleSortOptions(selectedOption);
+  };
+
+  //This function sorts rssInfo based on the options from select dropdown
+  const handleSortOptions = (option: string): RssItem | null => {
+    console.log('sort option is====>', option);
+    if (option === 'newest') {
+      const newsList = rssInfo?.newsList.sort(
+        (a, b) =>
+          Number(moment(b.pubDate).toDate()) -
+          Number(moment(a.pubDate).toDate())
+      );
+      // Check if rssInfo is null
+      if (!rssInfo) {
+        return null;
+      }
+
+      const updatedNewsList: NewsItem[] = newsList || [];
+
+      //create a new RssItem
+      const sortedNewsLatest: RssItem = {
+        title: rssInfo.title,
+        lastBuildDate: rssInfo.lastBuildDate,
+        link: rssInfo.link,
+        newsList: updatedNewsList,
+        sources: rssInfo.sources,
+      };
+      return sortedNewsLatest;
+    }
+
+    // const currentRssInfo = rssInfo;
+    // if (currentRssInfo !== null) {
+    //
+    //   const updatedNewsList: NewsItem[] = newsList || [];
+    //   const sortedArticlesNewest = {
+    //     ...currentRssInfo,
+    //     newsList: updatedNewsList,
+    //   };
+    //   setRssInfo(sortedArticlesNewest);
+    // }
+
+    // // const sortedArticlesNewest:RssItem ={
+    // //   ...rssInfo,
+    // //   newsList:
+    // // }
+    // console.log('sorted Artilces=>', rssInfo);
+    return null;
   };
 
   //useEffect to fetch data
@@ -136,14 +186,19 @@ function App() {
       />
       {loading && <Loader />}
       <div className="main">
-        {selectedDate ? (
+        {selectedDate && (
+          <NewsList rssInfo={filterNewsForSpecificDate(selectedDate)} />
+        )}
+        {sortOptions && <NewsList rssInfo={handleSortOptions(sortOptions)} />}
+        {!selectedDate && !sortOptions && <NewsList rssInfo={rssInfo} />}
+        {/* {selectedDate ? (
           <div className="test">
             <div>coming soon...</div>
             <NewsList rssInfo={filterNewsForSpecificDate(selectedDate)} />
           </div>
-        ) : (
+        ) : ({}
           <NewsList rssInfo={rssInfo} />
-        )}
+        )} */}
 
         <div className="features">
           {/* checkbox for favourties */}
@@ -176,6 +231,7 @@ function App() {
           <div>
             <label htmlFor="sort_input">Sort By:</label>
             <select id="sort_input" onChange={handleSortChange}>
+              <option value="default">Default</option>
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
               <option value="title_asc">title_asc</option>
