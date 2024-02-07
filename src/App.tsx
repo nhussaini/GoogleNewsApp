@@ -129,7 +129,30 @@ function App() {
       };
       return sortedNewsLatest;
     }
+    //title_asc
+    if (option === 'title_asc') {
+      const newsList = rssInfo?.newsList
+        .slice()
+        .sort((a, b) => a.title.localeCompare(b.title));
+      console.log('sorted based on title_asc: ', newsList);
 
+      // Check if rssInfo is null
+      if (!rssInfo) {
+        return null;
+      }
+
+      const updatedNewsList: NewsItem[] = newsList || [];
+
+      //create a new RssItem
+      const sortedNewsLatest: RssItem = {
+        title: rssInfo.title,
+        lastBuildDate: rssInfo.lastBuildDate,
+        link: rssInfo.link,
+        newsList: updatedNewsList,
+        sources: rssInfo.sources,
+      };
+      return sortedNewsLatest;
+    }
     return null;
   };
 
