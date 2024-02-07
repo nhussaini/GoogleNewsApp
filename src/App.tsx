@@ -74,6 +74,14 @@ function App() {
   //This function sorts rssInfo based on the options from select dropdown
   const handleSortOptions = (option: string): RssItem | null => {
     console.log('sort option is====>', option);
+    //default
+    // if (option === 'default') {
+    //   setSortOptions('');
+    //   console.log('sort options state is=>', sortOptions);
+    //   return null;
+    // }
+
+    //newest option
     if (option === 'newest') {
       const newsList = rssInfo?.newsList.sort(
         (a, b) =>
@@ -97,23 +105,31 @@ function App() {
       };
       return sortedNewsLatest;
     }
+    //oldest option
+    if (option === 'oldest') {
+      const newsList = rssInfo?.newsList.sort(
+        (a, b) =>
+          Number(moment(a.pubDate).toDate()) -
+          Number(moment(b.pubDate).toDate())
+      );
+      // Check if rssInfo is null
+      if (!rssInfo) {
+        return null;
+      }
 
-    // const currentRssInfo = rssInfo;
-    // if (currentRssInfo !== null) {
-    //
-    //   const updatedNewsList: NewsItem[] = newsList || [];
-    //   const sortedArticlesNewest = {
-    //     ...currentRssInfo,
-    //     newsList: updatedNewsList,
-    //   };
-    //   setRssInfo(sortedArticlesNewest);
-    // }
+      const updatedNewsList: NewsItem[] = newsList || [];
 
-    // // const sortedArticlesNewest:RssItem ={
-    // //   ...rssInfo,
-    // //   newsList:
-    // // }
-    // console.log('sorted Artilces=>', rssInfo);
+      //create a new RssItem
+      const sortedNewsLatest: RssItem = {
+        title: rssInfo.title,
+        lastBuildDate: rssInfo.lastBuildDate,
+        link: rssInfo.link,
+        newsList: updatedNewsList,
+        sources: rssInfo.sources,
+      };
+      return sortedNewsLatest;
+    }
+
     return null;
   };
 
