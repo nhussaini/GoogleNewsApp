@@ -72,8 +72,13 @@ function App() {
   };
 
   //This function sorts rssInfo based on the options from select dropdown
-  const handleSortOptions = (option: string): RssItem | null => {
+  const handleSortOptions = (
+    option: string,
+    rssForADate?: RssItem | null
+  ): RssItem | null => {
     console.log('sort option is====>', option);
+    let newRssInfo = null;
+    rssForADate ? (newRssInfo = rssForADate) : (newRssInfo = rssInfo);
     //default
     // if (option === 'default') {
     //   setSortOptions('');
@@ -83,13 +88,13 @@ function App() {
 
     //newest option
     if (option === 'newest') {
-      const newsList = rssInfo?.newsList.sort(
+      const newsList = newRssInfo?.newsList.sort(
         (a, b) =>
           Number(moment(b.pubDate).toDate()) -
           Number(moment(a.pubDate).toDate())
       );
       // Check if rssInfo is null
-      if (!rssInfo) {
+      if (!newRssInfo) {
         return null;
       }
 
@@ -97,23 +102,23 @@ function App() {
 
       //create a new RssItem
       const sortedNewsLatest: RssItem = {
-        title: rssInfo.title,
-        lastBuildDate: rssInfo.lastBuildDate,
-        link: rssInfo.link,
+        title: newRssInfo.title,
+        lastBuildDate: newRssInfo.lastBuildDate,
+        link: newRssInfo.link,
         newsList: updatedNewsList,
-        sources: rssInfo.sources,
+        sources: newRssInfo.sources,
       };
       return sortedNewsLatest;
     }
     //oldest option
     if (option === 'oldest') {
-      const newsList = rssInfo?.newsList.sort(
+      const newsList = newRssInfo?.newsList.sort(
         (a, b) =>
           Number(moment(a.pubDate).toDate()) -
           Number(moment(b.pubDate).toDate())
       );
       // Check if rssInfo is null
-      if (!rssInfo) {
+      if (!newRssInfo) {
         return null;
       }
 
@@ -121,22 +126,22 @@ function App() {
 
       //create a new RssItem
       const sortedNewsLatest: RssItem = {
-        title: rssInfo.title,
-        lastBuildDate: rssInfo.lastBuildDate,
-        link: rssInfo.link,
+        title: newRssInfo.title,
+        lastBuildDate: newRssInfo.lastBuildDate,
+        link: newRssInfo.link,
         newsList: updatedNewsList,
-        sources: rssInfo.sources,
+        sources: newRssInfo.sources,
       };
       return sortedNewsLatest;
     }
     //title_asc
     if (option === 'title_asc') {
-      const newsList = rssInfo?.newsList
+      const newsList = newRssInfo?.newsList
         .slice()
         .sort((a, b) => a.title.localeCompare(b.title));
 
       // Check if rssInfo is null
-      if (!rssInfo) {
+      if (!newRssInfo) {
         return null;
       }
 
@@ -144,23 +149,23 @@ function App() {
 
       //create a new RssItem
       const sortedNewsLatest: RssItem = {
-        title: rssInfo.title,
-        lastBuildDate: rssInfo.lastBuildDate,
-        link: rssInfo.link,
+        title: newRssInfo.title,
+        lastBuildDate: newRssInfo.lastBuildDate,
+        link: newRssInfo.link,
         newsList: updatedNewsList,
-        sources: rssInfo.sources,
+        sources: newRssInfo.sources,
       };
       return sortedNewsLatest;
     }
 
     //title_desc
     if (option === 'title_desc') {
-      const newsList = rssInfo?.newsList
+      const newsList = newRssInfo?.newsList
         .slice()
         .sort((a, b) => b.title.localeCompare(a.title));
 
       // Check if rssInfo is null
-      if (!rssInfo) {
+      if (!newRssInfo) {
         return null;
       }
 
@@ -168,23 +173,23 @@ function App() {
 
       //create a new RssItem
       const sortedNewsLatest: RssItem = {
-        title: rssInfo.title,
-        lastBuildDate: rssInfo.lastBuildDate,
-        link: rssInfo.link,
+        title: newRssInfo.title,
+        lastBuildDate: newRssInfo.lastBuildDate,
+        link: newRssInfo.link,
         newsList: updatedNewsList,
-        sources: rssInfo.sources,
+        sources: newRssInfo.sources,
       };
       return sortedNewsLatest;
     }
 
     //source_asc
     if (option === 'source_asc') {
-      const newsList = rssInfo?.newsList
+      const newsList = newRssInfo?.newsList
         .slice()
         .sort((a, b) => a.source.localeCompare(b.source));
 
       // Check if rssInfo is null
-      if (!rssInfo) {
+      if (!newRssInfo) {
         return null;
       }
 
@@ -192,23 +197,23 @@ function App() {
 
       //create a new RssItem
       const sortedNewsLatest: RssItem = {
-        title: rssInfo.title,
-        lastBuildDate: rssInfo.lastBuildDate,
-        link: rssInfo.link,
+        title: newRssInfo.title,
+        lastBuildDate: newRssInfo.lastBuildDate,
+        link: newRssInfo.link,
         newsList: updatedNewsList,
-        sources: rssInfo.sources,
+        sources: newRssInfo.sources,
       };
       return sortedNewsLatest;
     }
 
     //source_desc
     if (option === 'source_desc') {
-      const newsList = rssInfo?.newsList
+      const newsList = newRssInfo?.newsList
         .slice()
         .sort((a, b) => b.source.localeCompare(a.source));
 
       // Check if rssInfo is null
-      if (!rssInfo) {
+      if (!newRssInfo) {
         return null;
       }
 
@@ -216,11 +221,11 @@ function App() {
 
       //create a new RssItem
       const sortedNewsLatest: RssItem = {
-        title: rssInfo.title,
-        lastBuildDate: rssInfo.lastBuildDate,
-        link: rssInfo.link,
+        title: newRssInfo.title,
+        lastBuildDate: newRssInfo.lastBuildDate,
+        link: newRssInfo.link,
         newsList: updatedNewsList,
-        sources: rssInfo.sources,
+        sources: newRssInfo.sources,
       };
       return sortedNewsLatest;
     }
@@ -232,9 +237,23 @@ function App() {
   const handleSelectedDateAndSortOption = (
     selectedDate: string,
     selectedOption: string
-  ) => {
-    console.log('this function is working...');
+  ): RssItem | null => {
+    // Check if rssInfo is null
+    if (!rssInfo) {
+      return null;
+    }
+
+    const rssInfoForSpecDate = filterNewsForSpecificDate(selectedDate);
+
+    const rssInfoforDateAndOption = handleSortOptions(
+      selectedOption,
+      rssInfoForSpecDate
+    );
+    return rssInfoForSpecDate;
   };
+  useEffect(() => {
+    handleSelectedDateAndSortOption(selectedDate, sortOption);
+  }, [selectedDate, sortOption]);
 
   //useEffect to fetch data
   useEffect(() => {
@@ -312,14 +331,17 @@ function App() {
           <NewsList rssInfo={handleSortOptions(sortOption)} />
         )}
         {selectedDate && sortOption && (
-          <div
-            onClick={() =>
-              handleSelectedDateAndSortOption(selectedDate, sortOption)
-            }
-          >
-            {' '}
-            data based on option and date coming.....
-          </div>
+          <NewsList
+            rssInfo={handleSelectedDateAndSortOption(selectedDate, sortOption)}
+          />
+          // <div
+          //   onClick={() =>
+          //     handleSelectedDateAndSortOption(selectedDate, sortOption)
+          //   }
+          // >
+          //   {' '}
+          //   data based on option and date coming.....
+          // </div>
         )}
         {!selectedDate && !sortOption && <NewsList rssInfo={rssInfo} />}
         {/* {selectedDate ? (
