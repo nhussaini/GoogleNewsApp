@@ -14,7 +14,7 @@ function App() {
   const [rssInfo, setRssInfo] = useState<RssItem | null>(null);
   const [showFavourites, setShowFavourites] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<string>('');
-  const [sortOptions, setSortOptions] = useState<string>('');
+  const [sortOption, setSortOptions] = useState<string>('');
 
   //handle show favourites
   const handleShowFavouritesChange = (
@@ -77,7 +77,7 @@ function App() {
     //default
     // if (option === 'default') {
     //   setSortOptions('');
-    //   console.log('sort options state is=>', sortOptions);
+    //   console.log('sort options state is=>', sortOption);
     //   return null;
     // }
 
@@ -134,7 +134,6 @@ function App() {
       const newsList = rssInfo?.newsList
         .slice()
         .sort((a, b) => a.title.localeCompare(b.title));
-      console.log('sorted based on title_asc: ', newsList);
 
       // Check if rssInfo is null
       if (!rssInfo) {
@@ -159,7 +158,6 @@ function App() {
       const newsList = rssInfo?.newsList
         .slice()
         .sort((a, b) => b.title.localeCompare(a.title));
-      console.log('sorted based on title_asc: ', newsList);
 
       // Check if rssInfo is null
       if (!rssInfo) {
@@ -184,7 +182,30 @@ function App() {
       const newsList = rssInfo?.newsList
         .slice()
         .sort((a, b) => a.source.localeCompare(b.source));
-      console.log('sorted based on title_asc: ', newsList);
+
+      // Check if rssInfo is null
+      if (!rssInfo) {
+        return null;
+      }
+
+      const updatedNewsList: NewsItem[] = newsList || [];
+
+      //create a new RssItem
+      const sortedNewsLatest: RssItem = {
+        title: rssInfo.title,
+        lastBuildDate: rssInfo.lastBuildDate,
+        link: rssInfo.link,
+        newsList: updatedNewsList,
+        sources: rssInfo.sources,
+      };
+      return sortedNewsLatest;
+    }
+
+    //source_desc
+    if (option === 'source_desc') {
+      const newsList = rssInfo?.newsList
+        .slice()
+        .sort((a, b) => b.source.localeCompare(a.source));
 
       // Check if rssInfo is null
       if (!rssInfo) {
@@ -205,6 +226,14 @@ function App() {
     }
 
     return null;
+  };
+
+  //handle selectedDate and sortOption
+  const handleSelectedDateAndSortOption = (
+    selectedDate: string,
+    selectedOption: string
+  ) => {
+    console.log('this function is working...');
   };
 
   //useEffect to fetch data
@@ -276,11 +305,23 @@ function App() {
       />
       {loading && <Loader />}
       <div className="main">
-        {selectedDate && (
+        {selectedDate && !sortOption && (
           <NewsList rssInfo={filterNewsForSpecificDate(selectedDate)} />
         )}
-        {sortOptions && <NewsList rssInfo={handleSortOptions(sortOptions)} />}
-        {!selectedDate && !sortOptions && <NewsList rssInfo={rssInfo} />}
+        {sortOption && !selectedDate && (
+          <NewsList rssInfo={handleSortOptions(sortOption)} />
+        )}
+        {selectedDate && sortOption && (
+          <div
+            onClick={() =>
+              handleSelectedDateAndSortOption(selectedDate, sortOption)
+            }
+          >
+            {' '}
+            data based on option and date coming.....
+          </div>
+        )}
+        {!selectedDate && !sortOption && <NewsList rssInfo={rssInfo} />}
         {/* {selectedDate ? (
           <div className="test">
             <div>coming soon...</div>
@@ -321,7 +362,7 @@ function App() {
           <div>
             <label htmlFor="sort_input">Sort By:</label>
             <select id="sort_input" onChange={handleSortChange}>
-              <option value="default">Default</option>
+              {/* <option value="default">Default</option> */}
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
               <option value="title_asc">title_asc</option>
