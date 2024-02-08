@@ -15,6 +15,9 @@ function App() {
   const [showFavourites, setShowFavourites] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [sortOption, setSortOptions] = useState<string>('');
+  const [favoriteArticles, setFavoriteArticles] = useState<Set<string>>(
+    new Set()
+  );
 
   //handle show favourites
   const handleShowFavouritesChange = (
@@ -251,6 +254,31 @@ function App() {
     );
     return rssInfoForSpecDate;
   };
+
+  //onToggleFavorite
+  const onToggleFavorite = (articleId: string) => {
+    console.log('articleId=>', articleId);
+    setFavoriteArticles((prevFavoriteArticles) => {
+      const newFavoriteArticles = new Set(prevFavoriteArticles);
+      if (newFavoriteArticles.has(articleId)) {
+        newFavoriteArticles.delete(articleId);
+      } else {
+        newFavoriteArticles.add(articleId);
+      }
+      return newFavoriteArticles;
+    });
+
+    // console.log('favorite articles ids=>', favoriteArticles);
+  };
+
+  //to show that article is favorite or not
+  const isArticleFavorite = (articleId: string) => {
+    return favoriteArticles.has(articleId);
+  };
+
+  useEffect(() => {
+    console.log('Favorite Articles:', favoriteArticles);
+  }, [favoriteArticles]);
   useEffect(() => {
     handleSelectedDateAndSortOption(selectedDate, sortOption);
   }, [selectedDate, sortOption]);
@@ -325,14 +353,24 @@ function App() {
       {loading && <Loader />}
       <div className="main">
         {selectedDate && !sortOption && (
-          <NewsList rssInfo={filterNewsForSpecificDate(selectedDate)} />
+          <NewsList
+            onToggleFavorite={onToggleFavorite}
+            rssInfo={filterNewsForSpecificDate(selectedDate)}
+            isArticleFavorite={isArticleFavorite}
+          />
         )}
         {sortOption && !selectedDate && (
-          <NewsList rssInfo={handleSortOptions(sortOption)} />
+          <NewsList
+            onToggleFavorite={onToggleFavorite}
+            rssInfo={handleSortOptions(sortOption)}
+            isArticleFavorite={isArticleFavorite}
+          />
         )}
         {selectedDate && sortOption && (
           <NewsList
+            onToggleFavorite={onToggleFavorite}
             rssInfo={handleSelectedDateAndSortOption(selectedDate, sortOption)}
+            isArticleFavorite={isArticleFavorite}
           />
           // <div
           //   onClick={() =>
@@ -343,7 +381,13 @@ function App() {
           //   data based on option and date coming.....
           // </div>
         )}
-        {!selectedDate && !sortOption && <NewsList rssInfo={rssInfo} />}
+        {!selectedDate && !sortOption && (
+          <NewsList
+            onToggleFavorite={onToggleFavorite}
+            rssInfo={rssInfo}
+            isArticleFavorite={isArticleFavorite}
+          />
+        )}
         {/* {selectedDate ? (
           <div className="test">
             <div>coming soon...</div>
