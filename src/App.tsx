@@ -8,6 +8,7 @@ import { RssItem, NewsItem } from './models/data.model';
 import NewsList from './components/NewsList';
 import DateFilter from './components/DateFilter';
 import { formatDate } from './utils/helpers';
+import FavouriteArticlesList from './components/FavouriteArticlesList';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -24,6 +25,33 @@ function App() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     console.log('check=>', event.target.checked);
+    setShowFavourites(event.target.checked);
+    // if (event.target.checked) {
+    //   filterFavoriteArticles();
+    // }
+  };
+  // const handleShowFavouritesChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   console.log('check=>', event.target.checked);
+  //   setShowFavourites((prevShowFavourites) => {
+  //     // Use the previous state to update showFavourites
+  //     const newShowFavourites = event.target.checked;
+  //     if (newShowFavourites) {
+  //       filterFavoriteArticles();
+  //     }
+  //     return newShowFavourites;
+  //   });
+  // };
+
+  //filter the favorite articles
+  const filterFavoriteArticles = () => {
+    console.log('test.....');
+    console.log('show favorites=>', showFavourites);
+    if (showFavourites) {
+      console.log('favorite articles coming soon.....');
+    }
+    return 'test.....';
   };
 
   //handle date change
@@ -255,7 +283,7 @@ function App() {
     return rssInfoForSpecDate;
   };
 
-  //onToggleFavorite
+  //onToggleFavorite for individual article
   const onToggleFavorite = (articleId: string) => {
     console.log('articleId=>', articleId);
     setFavoriteArticles((prevFavoriteArticles) => {
@@ -274,6 +302,11 @@ function App() {
   //to show that article is favorite or not
   const isArticleFavorite = (articleId: string) => {
     return favoriteArticles.has(articleId);
+  };
+
+  //handle show favorites
+  const handleShowFavorites = () => {
+    console.log('handle show favorite function called!!!!!');
   };
 
   useEffect(() => {
@@ -352,6 +385,35 @@ function App() {
       />
       {loading && <Loader />}
       <div className="main">
+        {showFavourites ? (
+          <FavouriteArticlesList test={filterFavoriteArticles()} />
+        ) : // <div filterFavoriteArticles={() => filterFavoriteArticles()}> Favorite articles......</div>
+        selectedDate && !sortOption ? (
+          <NewsList
+            onToggleFavorite={onToggleFavorite}
+            rssInfo={filterNewsForSpecificDate(selectedDate)}
+            isArticleFavorite={isArticleFavorite}
+          />
+        ) : sortOption && !selectedDate ? (
+          <NewsList
+            onToggleFavorite={onToggleFavorite}
+            rssInfo={handleSortOptions(sortOption)}
+            isArticleFavorite={isArticleFavorite}
+          />
+        ) : selectedDate && sortOption ? (
+          <NewsList
+            onToggleFavorite={onToggleFavorite}
+            rssInfo={handleSelectedDateAndSortOption(selectedDate, sortOption)}
+            isArticleFavorite={isArticleFavorite}
+          />
+        ) : (
+          <NewsList
+            onToggleFavorite={onToggleFavorite}
+            rssInfo={rssInfo}
+            isArticleFavorite={isArticleFavorite}
+          />
+        )}
+        {/* {showFavourites ? <div> Favorite articles......</div> : 
         {selectedDate && !sortOption && (
           <NewsList
             onToggleFavorite={onToggleFavorite}
@@ -388,25 +450,19 @@ function App() {
             isArticleFavorite={isArticleFavorite}
           />
         )}
-        {/* {selectedDate ? (
-          <div className="test">
-            <div>coming soon...</div>
-            <NewsList rssInfo={filterNewsForSpecificDate(selectedDate)} />
-          </div>
-        ) : ({}
-          <NewsList rssInfo={rssInfo} />
-        )} */}
-
+      } */}
         <div className="features">
           {/* checkbox for favourties */}
           <div>
             <input
               type="checkbox"
               id="show_favourites"
-              checked={showFavourites}
+              // checked={showFavourites}
               onChange={handleShowFavouritesChange}
             />
-            <label htmlFor="show_favourites">Show Favourites</label>
+            <label htmlFor="show_favourites">
+              {showFavourites ? 'Hide Favourites' : 'Show Favourites'}
+            </label>
           </div>
           {/* date filter */}
           <DateFilter
