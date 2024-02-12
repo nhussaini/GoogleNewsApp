@@ -37,6 +37,18 @@
 .article {
   border: 2px solid black;
 }
+
+.selected {
+  /* Your styles for the selected state */
+  background-color: #007bff;
+  color: #fff;
+}
+
+.unselected {
+  /* Your styles for the unselected state */
+  background-color: #fff;
+  color: #007bff;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

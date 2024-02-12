@@ -61,6 +61,10 @@ function App() {
       filteredArticleSources
     );
   };
+  //to show that a source is selected or not
+  const isSourceSelected = (source: string) => {
+    return articleSources.has(source);
+  };
 
   useEffect(() => {
     console.log('Article source=>', articleSources);
@@ -484,6 +488,9 @@ function App() {
                     id={`source_${item}`}
                     key={`source_${item}`}
                     onClick={() => onToggleSource(item)}
+                    className={
+                      isSourceSelected(item) ? 'selected' : 'unselected'
+                    }
                   >
                     {item}
                   </button>
