@@ -24,17 +24,48 @@ function App() {
   const handleShowFavouritesChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log('check=>', event.target.checked);
     setShowFavourites(event.target.checked);
   };
 
   //filter the favorite articles
   const filterFavoriteArticles = () => {
+    //find out favorite articles from rssInfo
     const filteredFavouriteArticles = rssInfo?.newsList.filter((article) =>
       favoriteArticles.has(article.guid)
     );
 
+    //store fav articles in local storage
+    // const jsonString: string = JSON.stringify(filteredFavouriteArticles);
+    // localStorage.setItem('favourites', jsonString);
+
     return filteredFavouriteArticles;
+  };
+
+  //onToggleFavorite for individual article
+  const onToggleFavorite = (articleId: string) => {
+    setFavoriteArticles((prevFavoriteArticles) => {
+      const newFavoriteArticles = new Set(prevFavoriteArticles);
+      if (newFavoriteArticles.has(articleId)) {
+        newFavoriteArticles.delete(articleId);
+      } else {
+        newFavoriteArticles.add(articleId);
+      }
+
+      //find out favorite articles from rssInfo
+      const filteredFavouriteArticles = rssInfo?.newsList.filter((article) =>
+        favoriteArticles.has(article.guid)
+      );
+
+      //store fav articles in local storage
+      const jsonString: string = JSON.stringify(filteredFavouriteArticles);
+      localStorage.setItem('favourites', jsonString);
+      return newFavoriteArticles;
+    });
+  };
+
+  //to show that article is favorite or not
+  const isArticleFavorite = (articleId: string) => {
+    return favoriteArticles.has(articleId);
   };
 
   //handle date change
@@ -80,7 +111,6 @@ function App() {
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOption = event.target.value;
     // Handle the selected sort option here
-    console.log('Selected sort option:', selectedOption);
     setSortOptions(selectedOption);
     // handleSortOptions(selectedOption);
   };
@@ -90,7 +120,6 @@ function App() {
     option: string,
     rssForADate?: RssItem | null
   ): RssItem | null => {
-    console.log('sort option is====>', option);
     let newRssInfo = null;
     rssForADate ? (newRssInfo = rssForADate) : (newRssInfo = rssInfo);
     //default
@@ -266,32 +295,6 @@ function App() {
     return rssInfoForSpecDate;
   };
 
-  //onToggleFavorite for individual article
-  const onToggleFavorite = (articleId: string) => {
-    console.log('articleId=>', articleId);
-    setFavoriteArticles((prevFavoriteArticles) => {
-      const newFavoriteArticles = new Set(prevFavoriteArticles);
-      if (newFavoriteArticles.has(articleId)) {
-        newFavoriteArticles.delete(articleId);
-      } else {
-        newFavoriteArticles.add(articleId);
-      }
-      return newFavoriteArticles;
-    });
-
-    // console.log('favorite articles ids=>', favoriteArticles);
-  };
-
-  //to show that article is favorite or not
-  const isArticleFavorite = (articleId: string) => {
-    return favoriteArticles.has(articleId);
-  };
-
-  //handle show favorites
-  const handleShowFavorites = () => {
-    console.log('handle show favorite function called!!!!!');
-  };
-
   useEffect(() => {
     console.log('Favorite Articles:', favoriteArticles);
   }, [favoriteArticles]);
@@ -306,13 +309,11 @@ function App() {
         const response = await axios.get(
           'https://api.journey.skillreactor.io/r/f/rss.xml'
         );
-        // console.log('response=>', response.data);
         setLoading(false);
         const xmlData = response.data;
 
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlData, 'text/xml');
-        console.log('parser xml data=>', xmlDoc);
         const title =
           xmlDoc.querySelector('channel > title')?.textContent || '';
         const lastBuildDate =
@@ -322,7 +323,6 @@ function App() {
         const sources = Array.from(
           xmlDoc.querySelectorAll('channel > item >source')
         ).map((source) => source.textContent || '');
-        // console.log('sources====>', sources);
 
         const newsList: NewsItem[] = Array.from(
           xmlDoc.querySelectorAll('item')
@@ -337,7 +337,6 @@ function App() {
 
           return { title, link, guid, pubDate, description, source };
         });
-        // console.log('newsList=>', newsList);
 
         const rssItem: RssItem = {
           title,
@@ -369,7 +368,11 @@ function App() {
       {loading && <Loader />}
       <div className="main">
         {showFavourites ? (
-          <FavouriteArticlesList favoriteArticles={filterFavoriteArticles()} />
+          <FavouriteArticlesList
+            favoriteArticles={filterFavoriteArticles()}
+            onToggleFavorite={onToggleFavorite}
+            isArticleFavorite={isArticleFavorite}
+          />
         ) : // <div filterFavoriteArticles={() => filterFavoriteArticles()}> Favorite articles......</div>
         selectedDate && !sortOption ? (
           <NewsList
