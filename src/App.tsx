@@ -36,8 +36,35 @@ function App() {
       return newArticleSources;
     });
   };
+  //filter Article sources
+  const filterArticleSources = () => {
+    console.log('every time a source is clicked/unclicked');
+    // const filteredArtilceSources = rssInfo?.newsList.filter((article) =>
+    //   articleSources.has(article.source)
+    // );
+    // console.log('rssinfo====>', rssInfo);
+
+    const filteredArticleSources = rssInfo?.newsList.filter(
+      (article) => {
+        // console.log('article.source =>', article.source);
+        const convertedArticleSource = article.source
+          .toLowerCase()
+          .replace(/\s+/g, '_');
+        // console.log('after conversion=>', convertedArticleSource);
+
+        return articleSources.has(convertedArticleSource);
+      }
+      // articleSources.has(article.source)
+    );
+    console.log(
+      'filtered sources for specific source=> ',
+      filteredArticleSources
+    );
+  };
+
   useEffect(() => {
     console.log('Article source=>', articleSources);
+    filterArticleSources();
   }, [articleSources]);
   // useEffect(() => {
   //   console.log('Favorite Articles:', favoriteArticles);
@@ -59,6 +86,7 @@ function App() {
     const filteredFavouriteArticles = rssInfo?.newsList.filter((article) =>
       favoriteArticles.has(article.guid)
     );
+    console.log('favorite articles==>', filteredFavouriteArticles);
 
     //store fav articles in local storage
     // const jsonString: string = JSON.stringify(filteredFavouriteArticles);
@@ -400,7 +428,10 @@ function App() {
             isArticleFavorite={isArticleFavorite}
           />
         ) : // <div filterFavoriteArticles={() => filterFavoriteArticles()}> Favorite articles......</div>
-        selectedDate && !sortOption ? (
+        articleSources.size > 0 ? (
+          // Render the new component if articleSources is true
+          <div>article sources</div>
+        ) : selectedDate && !sortOption ? (
           <NewsList
             onToggleFavorite={onToggleFavorite}
             rssInfo={filterNewsForSpecificDate(selectedDate)}
