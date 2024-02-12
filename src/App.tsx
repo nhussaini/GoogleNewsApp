@@ -19,6 +19,32 @@ function App() {
   const [favoriteArticles, setFavoriteArticles] = useState<Set<string>>(
     new Set()
   );
+  const [articleSources, setArticleSources] = useState<Set<string>>(new Set());
+
+  //handle onToggleSource
+  const onToggleSource = (source: string) => {
+    console.log('article source=>', source);
+
+    setArticleSources((prevArticleSources) => {
+      const newArticleSources = new Set(prevArticleSources);
+      if (newArticleSources.has(source)) {
+        newArticleSources.delete(source);
+      } else {
+        newArticleSources.add(source);
+      }
+
+      return newArticleSources;
+    });
+  };
+  useEffect(() => {
+    console.log('Article source=>', articleSources);
+  }, [articleSources]);
+  // useEffect(() => {
+  //   console.log('Favorite Articles:', favoriteArticles);
+  // }, [favoriteArticles]);
+  // useEffect(() => {
+  //   handleSelectedDateAndSortOption(selectedDate, sortOption);
+  // }, [selectedDate, sortOption]);
 
   //handle show favourites
   const handleShowFavouritesChange = (
@@ -423,7 +449,11 @@ function App() {
             {rssInfo &&
               replaceSpaceWithUnderscore(rssInfo.sources).map((item) => {
                 return (
-                  <button id={`source_${item}`} key={`source_${item}`}>
+                  <button
+                    id={`source_${item}`}
+                    key={`source_${item}`}
+                    onClick={() => onToggleSource(item)}
+                  >
                     {item}
                   </button>
                 );
