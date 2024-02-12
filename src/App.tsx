@@ -26,37 +26,14 @@ function App() {
   ) => {
     console.log('check=>', event.target.checked);
     setShowFavourites(event.target.checked);
-    // if (event.target.checked) {
-    //   filterFavoriteArticles();
-    // }
   };
-  // const handleShowFavouritesChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   console.log('check=>', event.target.checked);
-  //   setShowFavourites((prevShowFavourites) => {
-  //     // Use the previous state to update showFavourites
-  //     const newShowFavourites = event.target.checked;
-  //     if (newShowFavourites) {
-  //       filterFavoriteArticles();
-  //     }
-  //     return newShowFavourites;
-  //   });
-  // };
 
   //filter the favorite articles
   const filterFavoriteArticles = () => {
-    // console.log('test.....');
-    // console.log('show favorites=>', showFavourites);
-    // console.log('favorite articles coming soon.....');
     const filteredFavouriteArticles = rssInfo?.newsList.filter((article) =>
       favoriteArticles.has(article.guid)
     );
-    console.log('filteredFav articles=>', filteredFavouriteArticles);
-    // if (showFavourites) {
-    //   console.log('favorite articles coming soon.....');
 
-    // }
     return filteredFavouriteArticles;
   };
 
@@ -419,44 +396,7 @@ function App() {
             isArticleFavorite={isArticleFavorite}
           />
         )}
-        {/* {showFavourites ? <div> Favorite articles......</div> : 
-        {selectedDate && !sortOption && (
-          <NewsList
-            onToggleFavorite={onToggleFavorite}
-            rssInfo={filterNewsForSpecificDate(selectedDate)}
-            isArticleFavorite={isArticleFavorite}
-          />
-        )}
-        {sortOption && !selectedDate && (
-          <NewsList
-            onToggleFavorite={onToggleFavorite}
-            rssInfo={handleSortOptions(sortOption)}
-            isArticleFavorite={isArticleFavorite}
-          />
-        )}
-        {selectedDate && sortOption && (
-          <NewsList
-            onToggleFavorite={onToggleFavorite}
-            rssInfo={handleSelectedDateAndSortOption(selectedDate, sortOption)}
-            isArticleFavorite={isArticleFavorite}
-          />
-          // <div
-          //   onClick={() =>
-          //     handleSelectedDateAndSortOption(selectedDate, sortOption)
-          //   }
-          // >
-          //   {' '}
-          //   data based on option and date coming.....
-          // </div>
-        )}
-        {!selectedDate && !sortOption && (
-          <NewsList
-            onToggleFavorite={onToggleFavorite}
-            rssInfo={rssInfo}
-            isArticleFavorite={isArticleFavorite}
-          />
-        )}
-      } */}
+
         <div className="features">
           {/* checkbox for favourties */}
           <div>
