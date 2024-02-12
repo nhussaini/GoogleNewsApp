@@ -46,12 +46,18 @@ function App() {
 
   //filter the favorite articles
   const filterFavoriteArticles = () => {
-    console.log('test.....');
-    console.log('show favorites=>', showFavourites);
-    if (showFavourites) {
-      console.log('favorite articles coming soon.....');
-    }
-    return 'test.....';
+    // console.log('test.....');
+    // console.log('show favorites=>', showFavourites);
+    // console.log('favorite articles coming soon.....');
+    const filteredFavouriteArticles = rssInfo?.newsList.filter((article) =>
+      favoriteArticles.has(article.guid)
+    );
+    console.log('filteredFav articles=>', filteredFavouriteArticles);
+    // if (showFavourites) {
+    //   console.log('favorite articles coming soon.....');
+
+    // }
+    return filteredFavouriteArticles;
   };
 
   //handle date change
@@ -386,7 +392,7 @@ function App() {
       {loading && <Loader />}
       <div className="main">
         {showFavourites ? (
-          <FavouriteArticlesList test={filterFavoriteArticles()} />
+          <FavouriteArticlesList favoriteArticles={filterFavoriteArticles()} />
         ) : // <div filterFavoriteArticles={() => filterFavoriteArticles()}> Favorite articles......</div>
         selectedDate && !sortOption ? (
           <NewsList
