@@ -166,8 +166,9 @@ function App() {
     option: string,
     rssForADate?: RssItem | null
   ): RssItem | null => {
-    let newRssInfo = null;
-    rssForADate ? (newRssInfo = rssForADate) : (newRssInfo = rssInfo);
+    let newRssInfo = rssForADate || rssInfo;
+    // let newRssInfo = null;
+    // rssForADate ? (newRssInfo = rssForADate) : (newRssInfo = rssInfo);
 
     //newest option
     if (option === 'newest') {
