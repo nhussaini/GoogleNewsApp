@@ -166,9 +166,7 @@ function App() {
     option: string,
     rssForADate?: RssItem | null
   ): RssItem | null => {
-    let newRssInfo = rssForADate || rssInfo;
-    // let newRssInfo = null;
-    // rssForADate ? (newRssInfo = rssForADate) : (newRssInfo = rssInfo);
+    let newRssInfo = rssForADate ?? rssInfo;
 
     //newest option
     if (option === 'newest') {
@@ -291,10 +289,6 @@ function App() {
 
     const rssInfoForSpecDate = filterNewsForSpecificDate(selectedDate);
 
-    const rssInfoforDateAndOption = handleSortOptions(
-      selectedOption,
-      rssInfoForSpecDate
-    );
     return rssInfoForSpecDate;
   };
 
@@ -318,25 +312,25 @@ function App() {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlData, 'text/xml');
         const title =
-          xmlDoc.querySelector('channel > title')?.textContent || '';
+          xmlDoc.querySelector('channel > title')?.textContent ?? '';
         const lastBuildDate =
-          xmlDoc.querySelector('channel > lastBuildDate')?.textContent || '';
-        const link = xmlDoc.querySelector('channel > link')?.textContent || '';
+          xmlDoc.querySelector('channel > lastBuildDate')?.textContent ?? '';
+        const link = xmlDoc.querySelector('channel > link')?.textContent ?? '';
 
         const sources = Array.from(
           xmlDoc.querySelectorAll('channel > item >source')
-        ).map((source) => source.textContent || '');
+        ).map((source) => source.textContent ?? '');
 
         const newsList: NewsItem[] = Array.from(
           xmlDoc.querySelectorAll('item')
         ).map((item) => {
-          const title = item.querySelector('title')?.textContent || '';
-          const link = item.querySelector('link')?.textContent || '';
-          const guid = item.querySelector('guid')?.textContent || '';
-          const pubDate = item.querySelector('pubDate')?.textContent || '';
+          const title = item.querySelector('title')?.textContent ?? '';
+          const link = item.querySelector('link')?.textContent ?? '';
+          const guid = item.querySelector('guid')?.textContent ?? '';
+          const pubDate = item.querySelector('pubDate')?.textContent ?? '';
           const description =
-            item.querySelector('description')?.textContent || '';
-          const source = item.querySelector('source')?.textContent || '';
+            item.querySelector('description')?.textContent ?? '';
+          const source = item.querySelector('source')?.textContent ?? '';
 
           return { title, link, guid, pubDate, description, source };
         });

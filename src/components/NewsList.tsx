@@ -1,4 +1,4 @@
-import { RssItem, NewsItem } from '../models/data.model';
+import { RssItem } from '../models/data.model';
 import { formatDate } from '../utils/helpers';
 
 type NewsListProps = {
