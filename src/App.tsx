@@ -80,10 +80,6 @@ function App() {
     );
     console.log('favorite articles==>', filteredFavouriteArticles);
 
-    //store fav articles in local storage
-    // const jsonString: string = JSON.stringify(filteredFavouriteArticles);
-    // localStorage.setItem('favourites', jsonString);
-
     return filteredFavouriteArticles;
   };
 
@@ -158,7 +154,6 @@ function App() {
     const selectedOption = event.target.value;
     // Handle the selected sort option here
     setSortOption(selectedOption);
-    // handleSortOptions(selectedOption);
   };
 
   //This function sorts rssInfo based on the options from select dropdown
@@ -166,115 +161,57 @@ function App() {
     option: string,
     rssForADate?: RssItem | null
   ): RssItem | null => {
-    let newRssInfo = rssForADate ?? rssInfo;
+    const newRssInfo = rssForADate ?? rssInfo;
 
-    //newest option
-    if (option === 'newest') {
-      const newsList = newRssInfo?.newsList.sort(
-        (a, b) =>
-          Number(moment(b.pubDate).toDate()) -
-          Number(moment(a.pubDate).toDate())
-      );
-      // Check if rssInfo is null
-      if (!newRssInfo) {
-        return null;
-      }
-
-      const updatedNewsList: NewsItem[] = newsList || [];
-      //create a new RssItem
-      const sortedNewsLatest = createNewRssItem(updatedNewsList, newRssInfo);
-
-      return sortedNewsLatest;
-    }
-    //oldest option
-    if (option === 'oldest') {
-      const newsList = newRssInfo?.newsList.sort(
-        (a, b) =>
-          Number(moment(a.pubDate).toDate()) -
-          Number(moment(b.pubDate).toDate())
-      );
-      // Check if rssInfo is null
-      if (!newRssInfo) {
-        return null;
-      }
-
-      const updatedNewsList: NewsItem[] = newsList || [];
-      //create a new RssItem
-      const sortedNewsOldest = createNewRssItem(updatedNewsList, newRssInfo);
-
-      return sortedNewsOldest;
-    }
-    //title_asc
-    if (option === 'title_asc') {
-      const newsList = newRssInfo?.newsList
-        .slice()
-        .sort((a, b) => a.title.localeCompare(b.title));
-
-      // Check if rssInfo is null
-      if (!newRssInfo) {
-        return null;
-      }
-
-      const updatedNewsList: NewsItem[] = newsList || [];
-      //create a new RssItem
-      const sortedTitleAsc = createNewRssItem(updatedNewsList, newRssInfo);
-
-      return sortedTitleAsc;
+    if (!newRssInfo) {
+      return null;
     }
 
-    //title_desc
-    if (option === 'title_desc') {
-      const newsList = newRssInfo?.newsList
-        .slice()
-        .sort((a, b) => b.title.localeCompare(a.title));
-
-      // Check if rssInfo is null
-      if (!newRssInfo) {
+    let sortedNewsList: NewsItem[] | undefined;
+    switch (option) {
+      case 'newest':
+        sortedNewsList = newRssInfo.newsList
+          .slice()
+          .sort(
+            (a, b) =>
+              Number(moment(b.pubDate).toDate()) -
+              Number(moment(a.pubDate).toDate())
+          );
+        break;
+      case 'oldest':
+        sortedNewsList = newRssInfo.newsList
+          .slice()
+          .sort(
+            (a, b) =>
+              Number(moment(a.pubDate).toDate()) -
+              Number(moment(b.pubDate).toDate())
+          );
+        break;
+      case 'title_asc':
+        sortedNewsList = newRssInfo.newsList
+          .slice()
+          .sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'title_desc':
+        sortedNewsList = newRssInfo.newsList
+          .slice()
+          .sort((a, b) => b.title.localeCompare(a.title));
+        break;
+      case 'source_asc':
+        sortedNewsList = newRssInfo.newsList
+          .slice()
+          .sort((a, b) => a.source.localeCompare(b.source));
+        break;
+      case 'source_desc':
+        sortedNewsList = newRssInfo.newsList
+          .slice()
+          .sort((a, b) => b.source.localeCompare(a.source));
+        break;
+      default:
         return null;
-      }
-
-      const updatedNewsList: NewsItem[] = newsList || [];
-      //create a new RssItem
-      const sortedTitleDesc = createNewRssItem(updatedNewsList, newRssInfo);
-      return sortedTitleDesc;
     }
 
-    //source_asc
-    if (option === 'source_asc') {
-      const newsList = newRssInfo?.newsList
-        .slice()
-        .sort((a, b) => a.source.localeCompare(b.source));
-
-      // Check if rssInfo is null
-      if (!newRssInfo) {
-        return null;
-      }
-
-      const updatedNewsList: NewsItem[] = newsList || [];
-      //create a new RssItem
-      const sortedSourceAsc = createNewRssItem(updatedNewsList, newRssInfo);
-      return sortedSourceAsc;
-    }
-
-    //source_desc
-    if (option === 'source_desc') {
-      const newsList = newRssInfo?.newsList
-        .slice()
-        .sort((a, b) => b.source.localeCompare(a.source));
-
-      // Check if rssInfo is null
-      if (!newRssInfo) {
-        return null;
-      }
-
-      const updatedNewsList: NewsItem[] = newsList || [];
-
-      //create a new RssItem
-      const sortedSourceDesc = createNewRssItem(updatedNewsList, newRssInfo);
-      return sortedSourceDesc;
-    }
-
-    return null;
+    return createNewRssItem(sortedNewsList, newRssInfo);
   };
 
   //handle selectedDate and sortOption
