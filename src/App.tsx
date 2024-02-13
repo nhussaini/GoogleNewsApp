@@ -37,39 +37,38 @@ function App() {
     });
   };
   //filter Article sources
-  const filterArticleSources = () => {
-    console.log('every time a source is clicked/unclicked');
-    // const filteredArtilceSources = rssInfo?.newsList.filter((article) =>
-    //   articleSources.has(article.source)
-    // );
-    // console.log('rssinfo====>', rssInfo);
+  const filterArticleSources = (): RssItem | null => {
+    const filteredArticleSources = rssInfo?.newsList.filter((article) => {
+      const convertedArticleSource = article.source
+        .toLowerCase()
+        .replace(/\s+/g, '_');
+      return articleSources.has(convertedArticleSource);
+    });
+    if (!rssInfo) {
+      return null;
+    }
 
-    const filteredArticleSources = rssInfo?.newsList.filter(
-      (article) => {
-        // console.log('article.source =>', article.source);
-        const convertedArticleSource = article.source
-          .toLowerCase()
-          .replace(/\s+/g, '_');
-        // console.log('after conversion=>', convertedArticleSource);
+    // create a new RssItem
+    const updatedNewsList: NewsItem[] = filteredArticleSources || [];
 
-        return articleSources.has(convertedArticleSource);
-      }
-      // articleSources.has(article.source)
-    );
-    console.log(
-      'filtered sources for specific source=> ',
-      filteredArticleSources
-    );
+    const filteredRssItem: RssItem = {
+      title: rssInfo.title,
+      lastBuildDate: rssInfo.lastBuildDate,
+      link: rssInfo.link,
+      newsList: updatedNewsList,
+      sources: rssInfo.sources,
+    };
+    return filteredRssItem;
   };
   //to show that a source is selected or not
   const isSourceSelected = (source: string) => {
     return articleSources.has(source);
   };
 
-  useEffect(() => {
-    console.log('Article source=>', articleSources);
-    filterArticleSources();
-  }, [articleSources]);
+  // useEffect(() => {
+  //   console.log('Article source=>', articleSources);
+  //   filterArticleSources();
+  // }, [articleSources]);
   // useEffect(() => {
   //   console.log('Favorite Articles:', favoriteArticles);
   // }, [favoriteArticles]);
@@ -434,7 +433,12 @@ function App() {
         ) : // <div filterFavoriteArticles={() => filterFavoriteArticles()}> Favorite articles......</div>
         articleSources.size > 0 ? (
           // Render the new component if articleSources is true
-          <div>article sources</div>
+          // <div>article sources</div>
+          <NewsList
+            onToggleFavorite={onToggleFavorite}
+            rssInfo={filterArticleSources()}
+            isArticleFavorite={isArticleFavorite}
+          />
         ) : selectedDate && !sortOption ? (
           <NewsList
             onToggleFavorite={onToggleFavorite}
