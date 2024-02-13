@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { NewsItem, RssItem } from '../models/data.model';
 
 export const formatDate = (dateString: string): string => {
   const date = moment(dateString).toDate();
@@ -26,4 +27,19 @@ export const formatDate = (dateString: string): string => {
     .toDateString()
     .substring(0, 3)} ${month} ${day} ${year}`;
   return formattedDate;
+};
+
+//create a new RssItem for the sort options
+export const createNewRssItem = (
+  updatedNewsList: NewsItem[],
+  newRssInfo: RssItem
+): RssItem => {
+  const newRssItem: RssItem = {
+    title: newRssInfo.title,
+    lastBuildDate: newRssInfo.lastBuildDate,
+    link: newRssInfo.link,
+    newsList: updatedNewsList,
+    sources: newRssInfo.sources,
+  };
+  return newRssItem;
 };

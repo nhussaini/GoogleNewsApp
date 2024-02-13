@@ -7,7 +7,7 @@ import Header from './components/Header';
 import { RssItem, NewsItem } from './models/data.model';
 import NewsList from './components/NewsList';
 import DateFilter from './components/DateFilter';
-import { formatDate } from './utils/helpers';
+import { createNewRssItem, formatDate } from './utils/helpers';
 import FavouriteArticlesList from './components/FavouriteArticlesList';
 
 function App() {
@@ -182,15 +182,9 @@ function App() {
       }
 
       const updatedNewsList: NewsItem[] = newsList || [];
-
       //create a new RssItem
-      const sortedNewsLatest: RssItem = {
-        title: newRssInfo.title,
-        lastBuildDate: newRssInfo.lastBuildDate,
-        link: newRssInfo.link,
-        newsList: updatedNewsList,
-        sources: newRssInfo.sources,
-      };
+      const sortedNewsLatest = createNewRssItem(updatedNewsList, newRssInfo);
+
       return sortedNewsLatest;
     }
     //oldest option
@@ -206,16 +200,10 @@ function App() {
       }
 
       const updatedNewsList: NewsItem[] = newsList || [];
-
       //create a new RssItem
-      const sortedNewsLatest: RssItem = {
-        title: newRssInfo.title,
-        lastBuildDate: newRssInfo.lastBuildDate,
-        link: newRssInfo.link,
-        newsList: updatedNewsList,
-        sources: newRssInfo.sources,
-      };
-      return sortedNewsLatest;
+      const sortedNewsOldest = createNewRssItem(updatedNewsList, newRssInfo);
+
+      return sortedNewsOldest;
     }
     //title_asc
     if (option === 'title_asc') {
@@ -229,16 +217,10 @@ function App() {
       }
 
       const updatedNewsList: NewsItem[] = newsList || [];
-
       //create a new RssItem
-      const sortedNewsLatest: RssItem = {
-        title: newRssInfo.title,
-        lastBuildDate: newRssInfo.lastBuildDate,
-        link: newRssInfo.link,
-        newsList: updatedNewsList,
-        sources: newRssInfo.sources,
-      };
-      return sortedNewsLatest;
+      const sortedTitleAsc = createNewRssItem(updatedNewsList, newRssInfo);
+
+      return sortedTitleAsc;
     }
 
     //title_desc
@@ -253,16 +235,9 @@ function App() {
       }
 
       const updatedNewsList: NewsItem[] = newsList || [];
-
       //create a new RssItem
-      const sortedNewsLatest: RssItem = {
-        title: newRssInfo.title,
-        lastBuildDate: newRssInfo.lastBuildDate,
-        link: newRssInfo.link,
-        newsList: updatedNewsList,
-        sources: newRssInfo.sources,
-      };
-      return sortedNewsLatest;
+      const sortedTitleDesc = createNewRssItem(updatedNewsList, newRssInfo);
+      return sortedTitleDesc;
     }
 
     //source_asc
@@ -277,16 +252,9 @@ function App() {
       }
 
       const updatedNewsList: NewsItem[] = newsList || [];
-
       //create a new RssItem
-      const sortedNewsLatest: RssItem = {
-        title: newRssInfo.title,
-        lastBuildDate: newRssInfo.lastBuildDate,
-        link: newRssInfo.link,
-        newsList: updatedNewsList,
-        sources: newRssInfo.sources,
-      };
-      return sortedNewsLatest;
+      const sortedSourceAsc = createNewRssItem(updatedNewsList, newRssInfo);
+      return sortedSourceAsc;
     }
 
     //source_desc
@@ -303,14 +271,8 @@ function App() {
       const updatedNewsList: NewsItem[] = newsList || [];
 
       //create a new RssItem
-      const sortedNewsLatest: RssItem = {
-        title: newRssInfo.title,
-        lastBuildDate: newRssInfo.lastBuildDate,
-        link: newRssInfo.link,
-        newsList: updatedNewsList,
-        sources: newRssInfo.sources,
-      };
-      return sortedNewsLatest;
+      const sortedSourceDesc = createNewRssItem(updatedNewsList, newRssInfo);
+      return sortedSourceDesc;
     }
 
     return null;
