@@ -19,11 +19,6 @@ describe('formatDate function', () => {
     expect(formatDate(dateString)).toEqual(expectedFormattedDate);
   });
 
-  //   it('handles invalid input gracefully', () => {
-  //     const dateString = ''; // Invalid input: empty string
-  //     expect(formatDate(dateString)).toBe('');
-  //   });
-
   it('returns a string', () => {
     const dateString = '2023-06-15';
     expect(typeof formatDate(dateString)).toBe('string');

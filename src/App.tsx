@@ -15,7 +15,7 @@ function App() {
   const [rssInfo, setRssInfo] = useState<RssItem | null>(null);
   const [showFavourites, setShowFavourites] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<string>('');
-  const [sortOption, setSortOptions] = useState<string>('');
+  const [sortOption, setSortOption] = useState<string>('');
   const [favoriteArticles, setFavoriteArticles] = useState<Set<string>>(
     new Set()
   );
@@ -64,17 +64,6 @@ function App() {
   const isSourceSelected = (source: string) => {
     return articleSources.has(source);
   };
-
-  // useEffect(() => {
-  //   console.log('Article source=>', articleSources);
-  //   filterArticleSources();
-  // }, [articleSources]);
-  // useEffect(() => {
-  //   console.log('Favorite Articles:', favoriteArticles);
-  // }, [favoriteArticles]);
-  // useEffect(() => {
-  //   handleSelectedDateAndSortOption(selectedDate, sortOption);
-  // }, [selectedDate, sortOption]);
 
   //handle show favourites
   const handleShowFavouritesChange = (
@@ -168,7 +157,7 @@ function App() {
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOption = event.target.value;
     // Handle the selected sort option here
-    setSortOptions(selectedOption);
+    setSortOption(selectedOption);
     // handleSortOptions(selectedOption);
   };
 
@@ -179,12 +168,6 @@ function App() {
   ): RssItem | null => {
     let newRssInfo = null;
     rssForADate ? (newRssInfo = rssForADate) : (newRssInfo = rssInfo);
-    //default
-    // if (option === 'default') {
-    //   setSortOptions('');
-    //   console.log('sort options state is=>', sortOption);
-    //   return null;
-    // }
 
     //newest option
     if (option === 'newest') {
