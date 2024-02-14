@@ -1,0 +1,97 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+.main {
+  border: 1px solid red;
+  display: flex;
+
+  .newsList {
+    width: 90%;
+
+    #content {
+      //   background-color: #007bff;
+      .article {
+        background-color: #f0f0f0; // Set your desired background color
+        border-radius: 10px; // Add border-radius for rounded corners
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Add a subtle shadow
+
+        // Add some padding and margin for spacing
+        padding: 20px;
+        margin-bottom: 20px;
+
+        // Transition for smooth animation
+        transition: transform 0.3s ease;
+
+        // Move it slightly forward on hover
+        &:hover {
+          transform: translateZ(10px); // Move forward
+        }
+        .description {
+          ol {
+            list-style-type: none; // Remove numbers
+            padding-left: 0; // Remove default padding
+
+            li {
+              text-align: left; // Align list items to the right
+            }
+          }
+        }
+      }
+    }
+  }
+  .feature {
+    width: 30%;
+  }
+}
+.test {
+  border: 2px solid blue;
+}
+// .article {
+//   border: 2px solid black;
+// }
+
+.selected {
+  /* Your styles for the selected state */
+  background-color: #007bff;
+  color: #fff;
+}
+
+.unselected {
+  /* Your styles for the unselected state */
+  background-color: #fff;
+  color: #007bff;
+}
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

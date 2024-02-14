@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import './App.css';
+// import './App.css';
+import './App.scss';
 import axios from 'axios';
 import Loader from './components/Loader';
 import Header from './components/Header';

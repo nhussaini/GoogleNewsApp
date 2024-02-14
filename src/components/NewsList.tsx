@@ -14,7 +14,7 @@ const NewsList = ({
 }: NewsListProps) => {
   {
     return (
-      <div>
+      <div className="newsList">
         {' '}
         {rssInfo?.title && (
           <div id="content">
@@ -42,6 +42,7 @@ const NewsList = ({
                   <h5 id={`article_${item.guid}_source`}>{item.source}</h5>
                   {/* <div id={`article_${item.guid}_desc`}>{item.description}</div> */}
                   <div
+                    className="description"
                     id={`article_${item.guid}_desc`}
                     dangerouslySetInnerHTML={{ __html: item.description }}
                   />
