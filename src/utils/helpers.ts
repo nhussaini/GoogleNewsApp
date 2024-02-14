@@ -43,3 +43,11 @@ export const createNewRssItem = (
   };
   return newRssItem;
 };
+
+export const replaceSpaceWithUnderscore = (sources: string[] = []) => {
+  const nonDuplicates = Array.from(new Set([...sources]));
+  const filteredSources = nonDuplicates.map((item) =>
+    item.toLowerCase().replace(/\s+/g, '_')
+  );
+  return filteredSources;
+};

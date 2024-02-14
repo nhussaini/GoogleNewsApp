@@ -9,6 +9,7 @@ import NewsList from './components/NewsList';
 import DateFilter from './components/DateFilter';
 import { createNewRssItem, formatDate } from './utils/helpers';
 import FavouriteArticlesList from './components/FavouriteArticlesList';
+import SourcesButton from './components/SourcesButton';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -141,13 +142,13 @@ function App() {
     return filteredRssItem;
   };
 
-  const replaceSpaceWithUnderscore = (sources: string[] = []) => {
-    const nonDuplicates = Array.from(new Set([...sources]));
-    const filteredSources = nonDuplicates.map((item) =>
-      item.toLowerCase().replace(/\s+/g, '_')
-    );
-    return filteredSources;
-  };
+  // const replaceSpaceWithUnderscore = (sources: string[] = []) => {
+  //   const nonDuplicates = Array.from(new Set([...sources]));
+  //   const filteredSources = nonDuplicates.map((item) =>
+  //     item.toLowerCase().replace(/\s+/g, '_')
+  //   );
+  //   return filteredSources;
+  // };
 
   //handle sort change
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -229,9 +230,6 @@ function App() {
     return rssInfoForSpecDate;
   };
 
-  useEffect(() => {
-    console.log('Favorite Articles:', favoriteArticles);
-  }, [favoriteArticles]);
   useEffect(() => {
     handleSelectedDateAndSortOption(selectedDate, sortOption);
   }, [selectedDate, sortOption]);
@@ -361,23 +359,31 @@ function App() {
             handleDateChange={handleDateChange}
           />
           {/* button to filter based on news sources */}
-          <div>
-            {rssInfo &&
-              replaceSpaceWithUnderscore(rssInfo.sources).map((item) => {
-                return (
-                  <button
-                    id={`source_${item}`}
-                    key={`source_${item}`}
-                    onClick={() => onToggleSource(item)}
-                    className={
-                      isSourceSelected(item) ? 'selected' : 'unselected'
-                    }
-                  >
-                    {item}
-                  </button>
-                );
-              })}
-          </div>
+
+          {
+            rssInfo && (
+              <SourcesButton
+                sources={rssInfo.sources}
+                isSourceSelected={isSourceSelected}
+                onToggleSource={onToggleSource}
+              />
+            )
+            // replaceSpaceWithUnderscore(rssInfo.sources).map((item) => {
+            //   return (
+            //     <button
+            //       id={`source_${item}`}
+            //       key={`source_${item}`}
+            //       onClick={() => onToggleSource(item)}
+            //       className={
+            //         isSourceSelected(item) ? 'selected' : 'unselected'
+            //       }
+            //     >
+            //       {item}
+            //     </button>
+            //   );
+            // })
+          }
+
           {/* dropdown select for sorting */}
           <div>
             <label htmlFor="sort_input">Sort By:</label>
