@@ -1,5 +1,10 @@
 import { RssItem } from '../models/data.model';
 import { formatDate } from '../utils/helpers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faHeart as solidHeart,
+  faHeart as outlineHeart,
+} from '@fortawesome/free-solid-svg-icons';
 
 type NewsListProps = {
   rssInfo: RssItem | null;
@@ -32,9 +37,14 @@ const NewsList = ({
                     id={`article_${item.guid}_fav_btn`}
                     onClick={() => onToggleFavorite(item.guid)}
                   >
-                    {isArticleFavorite(item.guid)
-                      ? 'Remove as Favorite'
-                      : 'Favorite'}
+                    {isArticleFavorite(item.guid) ? (
+                      <FontAwesomeIcon
+                        icon={solidHeart}
+                        style={{ color: 'red' }}
+                      />
+                    ) : (
+                      <FontAwesomeIcon icon={outlineHeart} />
+                    )}
                   </button>
                   <h5 id={`article_${item.guid}_pub_date`}>
                     {formatDate(item.pubDate)}
