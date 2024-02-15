@@ -1,3 +1,14 @@
+/* Define common styles */
+.buttons-common-styles {
+  width: 140px;
+  height: 40px;
+  padding: 4px 8px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 5px;
+}
+
 .App {
   text-align: center;
 }
@@ -154,28 +165,16 @@
       //   justify-content: space-around;
       .selected {
         /* Your styles for the selected state */
-        width: 140px;
-        height: 40px;
-        padding: 4px 8px;
-        border: none;
+        @extend .buttons-common-styles;
         background-color: #c6c5c5;
         color: #313f4e;
-        cursor: pointer;
-        border-radius: 4px;
-        margin: 5px;
       }
 
       .unselected {
         /* Your styles for the unselected state */
-        width: 140px;
-        height: 40px;
-        padding: 4px 8px;
-        border: none;
+        @extend .buttons-common-styles;
         background-color: #313f4e;
         color: #c6c5c5;
-        cursor: pointer;
-        border-radius: 4px;
-        margin: 5px;
       }
     }
   }
