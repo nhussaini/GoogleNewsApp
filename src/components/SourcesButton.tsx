@@ -11,7 +11,7 @@ const SourcesButton = ({
   onToggleSource,
 }: SourceButtonProps) => {
   return (
-    <div>
+    <div className="sources-buttons">
       {replaceSpaceWithUnderscore(sources).map((item) => (
         <button
           id={`source_${item}`}
