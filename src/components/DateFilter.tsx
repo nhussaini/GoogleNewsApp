@@ -5,7 +5,7 @@ type DateFilterProps = {
 
 const DateFilter = ({ selectedDate, handleDateChange }: DateFilterProps) => {
   return (
-    <div>
+    <div className="date-container">
       {' '}
       <label htmlFor="selected_date">Select Date:</label>
       <input
