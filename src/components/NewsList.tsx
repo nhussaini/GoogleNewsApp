@@ -17,11 +17,13 @@ const NewsList = ({
   onToggleFavorite,
   isArticleFavorite,
 }: NewsListProps) => {
+  console.log('rssInfo==>', rssInfo);
   {
     return (
       <div className="newsList">
-        {' '}
-        {rssInfo?.title && (
+        {!rssInfo || rssInfo.newsList.length === 0 ? (
+          <p>No Favorite Articles Yet!</p>
+        ) : (
           <div id="content">
             {rssInfo?.newsList.map((item) => {
               return (
