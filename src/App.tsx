@@ -360,14 +360,14 @@ function App() {
 
         <div className="features">
           {/* checkbox for favourties */}
-          <div>
+          <div className="favorites">
             <input
               type="checkbox"
               id="show_favourites"
-              // checked={showFavourites}
               onChange={handleShowFavouritesChange}
+              className="custom-checkbox"
             />
-            <label htmlFor="show_favourites">
+            <label htmlFor="show_favourites" className="checkbox-label">
               {showFavourites ? 'Hide Favourites' : 'Show Favourites'}
             </label>
           </div>

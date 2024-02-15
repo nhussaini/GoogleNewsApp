@@ -68,8 +68,51 @@
       }
     }
   }
-  .feature {
+  .features {
     width: 30%;
+    display: flex;
+    flex-direction: column;
+    .favorites {
+      margin-bottom: 10px;
+      /* Hide the default checkbox */
+      .custom-checkbox {
+        display: none;
+      }
+      /* Style the label to look like a checkbox */
+      .checkbox-label {
+        position: relative;
+        padding-left: 25px;
+        cursor: pointer;
+      }
+      /* Create the checkmark */
+      .checkbox-label:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 18px;
+        height: 18px;
+        border: 1px solid #ccc;
+      }
+      /* Style the checkmark when the checkbox is checked */
+      .custom-checkbox:checked + .checkbox-label:before {
+        background-color: #2196f3; /* Change color when checked */
+      }
+      /* Create the checkmark icon */
+      .checkbox-label:after {
+        content: '';
+        position: absolute;
+        display: none;
+      }
+      /* Show the checkmark icon when the checkbox is checked */
+      .custom-checkbox:checked + .checkbox-label:after {
+        content: '\2713'; /* Unicode character for checkmark */
+        font-size: 14px;
+        left: 4px;
+        top: 1px;
+        color: white;
+      }
+    }
   }
 }
 .test {
