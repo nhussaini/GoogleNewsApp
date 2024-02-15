@@ -9,7 +9,7 @@ import { RssItem, NewsItem } from './models/data.model';
 import NewsList from './components/NewsList';
 import DateFilter from './components/DateFilter';
 import { createNewRssItem, formatDate } from './utils/helpers';
-import FavouriteArticlesList from './components/FavouriteArticlesList';
+// import FavouriteArticlesList from './components/FavouriteArticlesList';
 import SourcesButton from './components/SourcesButton';
 
 function App() {
@@ -76,13 +76,25 @@ function App() {
 
   //filter the favorite articles
   const filterFavoriteArticles = () => {
+    // Check if rssInfo is null
+    if (!rssInfo) {
+      return null;
+    }
     //find out favorite articles from rssInfo
     const filteredFavouriteArticles = rssInfo?.newsList.filter((article) =>
       favoriteArticles.has(article.guid)
     );
     console.log('favorite articles==>', filteredFavouriteArticles);
+    //create a new RssItem
+    const filteredRssItem: RssItem = {
+      title: rssInfo.title,
+      lastBuildDate: rssInfo.lastBuildDate,
+      link: rssInfo.link,
+      newsList: filteredFavouriteArticles,
+      sources: rssInfo.sources,
+    };
 
-    return filteredFavouriteArticles;
+    return filteredRssItem;
   };
 
   //onToggleFavorite for individual article
@@ -301,9 +313,14 @@ function App() {
       {loading && <Loader />}
       <div className="main">
         {showFavourites ? (
-          <FavouriteArticlesList
-            favoriteArticles={filterFavoriteArticles()}
+          // <FavouriteArticlesList
+          //   favoriteArticles={filterFavoriteArticles()}
+          //   onToggleFavorite={onToggleFavorite}
+          //   isArticleFavorite={isArticleFavorite}
+          // />
+          <NewsList
             onToggleFavorite={onToggleFavorite}
+            rssInfo={filterFavoriteArticles()}
             isArticleFavorite={isArticleFavorite}
           />
         ) : // <div filterFavoriteArticles={() => filterFavoriteArticles()}> Favorite articles......</div>

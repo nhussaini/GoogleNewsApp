@@ -1,3 +1,6 @@
+//Just keeping this component here,
+//but it has not been used in the parent component
+
 import { NewsItem } from '../models/data.model';
 import { formatDate } from '../utils/helpers';
 
